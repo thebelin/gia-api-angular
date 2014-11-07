@@ -1,6 +1,15 @@
 <!doctype html>
 <html data-ng-app="giaApp" data-ng-controller="giadataController" data-ng-init="init()">
 <head>
+  <title>{{giadata.config.name}}</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="{{giadata.config.description}}">
+  <meta name="keywords" content="{{giadata.config.keywords}}">
+  <meta name="application-url" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui, user-scalable=0, maximum-scale=1">
+  <!-- Add to homescreen for Chrome on Android -->
+  <meta name="mobile-web-app-capable" content="yes">
+
   <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.0.4/css/bootstrap-combined.min.css">
   <link href="http://netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
 
@@ -11,22 +20,23 @@
 <script src="script/giaClient.js"></script>
 
 <body>
+  <div class="breadcrumbs">
+    <div
+      data-ng-repeat = "category in giadata.categories"
+      data-name      = "{{category.name}}" 
+      class          = "breadcrumbCategory">
+      <a href="#{{category.name}}">
+        <div alt="{{category.description}}" class="breadcrumbName">{{category.name}}</div>
+      </a>
+    </div>
+  </div>
+
   <div id = "content">
     <div id="contentOverlay"></div>
     <div id="previewOverlay"></div>
     <div id="previewMask"></div>
     <div id="preview"></div>
   
-    <div class="breadcrumbs">
-      <div
-        data-ng-repeat = "category in giadata.categories"
-        data-name      = "{{category.name}}" 
-        class          = "breadcrumbCategory">
-        <a href="#{{category.name}}">
-          <div alt="{{category.description}}" class="breadcrumbName">{{category.name}}</div>
-        </a>
-      </div>
-    </div>
 
     <div class="drawer">
       <div class="contactName">{{giadata.config.name}}</div>
@@ -50,7 +60,7 @@
 
         <div data-ng-repeat="category in giadata.categories"><!-- Begin category display -->
 
-          <a id="{{category.name}}" />
+          <a id="{{category.name}}"></a>
           <div class="category" data-name="{{category.name}}">
             <div class="categoryName">{{category.name}}</div>
 
@@ -60,31 +70,43 @@
               <!-- Only display available items -->
               <div
                 data-ng-if = "item.available"
-                class      = "menuItem menuItemList simpleCart_shelfItem {{item.class}}"
+                data-ng-class = "{
+                  menuItem:1,
+                  menuItemList: giadata.viewFormat==='list' || item.itemOpen,
+                  menuItemGrid: giadata.viewFormat==='grid' && item.name !== giadata.currItem.name}"
+                class = "{{item.class}}"
                 data-limit = "{{item.available}}"
                 data-name  = "{{item.name}}"
                 data-price = "{{item.price}}">
                   <div
-                    data-ng-if = "item.thumbnail"
-                    class      = "itemThumb"
-                    style      = "background-image: url('{{item.thumbnail}}');">
+                    data-ng-click = "item.itemOpen = !item.itemOpen;giadata.currItem = item"
+                    data-ng-if    = "item.thumbnail"
+                    class         = "itemThumb"
+                    style         = "background-image: url('{{item.thumbnail}}');">
                   </div>
 
-                  <div class = "itemName">{{item.name}}</div>
+                  <div 
+                    data-ng-click = "item.itemOpen = !item.itemOpen;giadata.currItem = item"
+                    class = "itemName">
+                  {{item.name}}
+                  </div>
 
                   <div class = "addButton"
                     data-name  = "{{item.name}}"
                     data-price = "{{item.price}}">
                     ${{item.price}}
                   </div>
+                  
                   <div class = "menuDescription">{{item.description}}</div>
+                  
                   <div class = "menuOptions">
                     <div data-ng-repeat = "option in giadata.menuOptions">
                       <!-- Show the selector if there are options of this type available -->
-                      <!-- establish a hover event which expands the options selector -->
+                      <!-- establish a hover event and a touch event which expands the options selector -->
                       <div 
                         data-ng-if        = "item[option.optionName]"
-                        data-ng-class     = "{selectOptionOpen: hover, selectOption: true}" 
+                        data-ng-class     = "{selectOptionOpen: hover, selectOption: true}"
+                        data-ng-touch     = "hover = !hover"
                         data-ng-mouseenter= "hover = true"
                         data-ng-mouseleave= "hover = false"
                         data-option       = "{{option.optionName}}">
@@ -102,8 +124,22 @@
             </div>
           </div><!-- end category display -->
         </div>
-        <div class="cartFormat" data-view="grid" title="Switch To Grid View"><i class="fa fa-th"></i></div>
-        <div class="cartFormat" data-view="list" title="Switch To List View"><i class="fa fa-list"></i></div>
+        <div
+          data-ng-if    = "giadata.viewFormat === 'list' || !giadata.viewFormat"
+          data-ng-click = "giadata.viewFormat = 'grid'"
+          class         = "cartFormat"
+          data-view     = "grid"
+          title         = "Switch To Grid View">
+          <i class="fa fa-th"></i>
+        </div>
+        <div
+          data-ng-if    = "giadata.viewFormat === 'grid'"
+          data-ng-click = "giadata.viewFormat = 'list'"
+          class         = "cartFormat"
+          data-view     = "list"
+          title         = "Switch To List View">
+          <i class="fa fa-list"></i>
+      </div>
       </div>
       <div class="details">
           

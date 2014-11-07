@@ -9,7 +9,8 @@ angular.module('giaApp', [])
       $scope.localDataDom = window.location.href;
       // @type string A memo which indicates the state of the source data
       $scope.memo = '';
-
+      // Default to a list view in the giadata object
+      $scope.giadata = {viewFormat:'list',currItem:{}};
       // @type function A safe JSON parse routine
       $scope.safeParse = function (parseData) {
         try {
@@ -37,9 +38,9 @@ angular.module('giaApp', [])
         // Set the body fontSize attribute to the factored size for the screen
         document.getElementsByTagName("body")[0].style.fontSize = fontSize;
         // Also resize the main content area down to 90% of the screen
-        
         if (content.style) {
-          content.style.innerHeight = window.innerHeight * .9;
+          content.style.height = window.innerHeight * .9 + 'px';
+          content.style.width = window.innerWidth + 'px';
         }
       };
       
@@ -65,7 +66,7 @@ angular.module('giaApp', [])
             // Store the data locally
             $scope.localDataDom && localStorage && localStorage.setItem($scope.localDataDom + '_data', JSON.stringify(data));
             // Set the local giadata attribute of the $scope to the returned data
-            $scope.giadata = data;
+            angular.extend($scope.giadata, data);
           }
         }).
         error(function(data, status, headers, config) {

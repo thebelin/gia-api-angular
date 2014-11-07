@@ -23,7 +23,7 @@ body {font-family:Verdana,Lucida;background-image:url('../images/food_background
 }
 
 /* Shaded Things */
-.details, #cart, .menuItem, .optionValue {
+.details, #cart, .menuItem, .optionValue, .selectOption {
     background: -webkit-linear-gradient(bottom,rgba(0,0,0,.3),rgba(0,0,0,.7)); /*Safari 5.1-6*/
     background: -o-linear-gradient(bottom,rgba(0,0,0,.3),rgba(0,0,0,.7)); /*Opera 11.1-12*/
     background: -moz-linear-gradient(bottom,rgba(0,0,0,.3),rgba(0,0,0,.7)); /*Fx 3.6-15*/
@@ -31,7 +31,7 @@ body {font-family:Verdana,Lucida;background-image:url('../images/food_background
 }
 
 /* Wide Shadow */
-.paymentOption, .mapLink, .socialLinks>div, .details, #cart, .menuItem, .optionValue{
+.drawer, .paymentOption, .mapLink, .socialLinks>div, .details, #cart, .menuItem, .optionValue, .selectOption{
     -webkit-box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75);
     -moz-box-shadow:    0px 0px 10px 0px rgba(50, 50, 50, 0.75);
     box-shadow:         0px 0px 10px 0px rgba(50, 50, 50, 0.75);
@@ -77,13 +77,9 @@ body {font-family:Verdana,Lucida;background-image:url('../images/food_background
 .cartFormat{
     position: absolute;
     left:.25em;
-    top:.5em;
+    top:.7em;
     font-size: 2em;
     cursor: pointer;
-}
-
-.cartFormat[data-view="list"] {
-    display:none;
 }
 
 .category {
@@ -276,11 +272,10 @@ body {font-family:Verdana,Lucida;background-image:url('../images/food_background
     cursor: pointer;
 }
 .itemThumb {
-    margin-top:.5em;
+    margin:.5em -4em 1em 0;
     float:left;
     width:5em;
     height:5em;
-    margin-right: -4em;
     background-size:auto 100%;
     cursor: pointer;
 }
@@ -311,12 +306,11 @@ body {font-family:Verdana,Lucida;background-image:url('../images/food_background
     height: 1.5em;
     overflow-y: hidden;
     overflow-x: hidden;
-    padding: 0em .5em 0 .5em;
-    margin: .2em .5em 0 .5em;
+    margin: 0 .5em 0 .5em;
 }
 .selectOptionOpen {
-    height: 8em;
-    margin-top: -6.5em;
+    height: 7em;
+    margin-top: -6em;
     overflow-y: auto;
 }
 
@@ -325,7 +319,21 @@ body {font-family:Verdana,Lucida;background-image:url('../images/food_background
     padding: 0 .5em 0 .5em;
     text-align: center;
     margin: .2em 0 0 0;
+    width: 100%;
 }
+.optionValue[data-value="mild"] {
+	background-color:#00ff00;
+}
+.optionValue[data-value="medium"] {
+	background-color:#ffc600;
+}
+.optionValue[data-value="hot"] {
+	background-color:#ff0000;
+}
+.optionValue[data-value="extra hot"] {
+	background-color:#d200ff;
+}
+
 .optionValue:hover, .selectedOption {
     background-color: #163011;
     color: #fff;
@@ -375,9 +383,6 @@ body {font-family:Verdana,Lucida;background-image:url('../images/food_background
     padding-left: 1em;
     padding-right: 1em;
     border-bottom: 0;
-    -webkit-box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75);
-    -moz-box-shadow:    0px 0px 10px 0px rgba(50, 50, 50, 0.75);
-    box-shadow:         0px 0px 10px 0px rgba(50, 50, 50, 0.75);
     background: rgb(225,255,255); /* Old browsers */
 }
 .drawer .drawerContents {
@@ -405,6 +410,7 @@ body {font-family:Verdana,Lucida;background-image:url('../images/food_background
     width:100%;
 }
 .drawer .contactHours {
+	width: 14em;
     float: right;
     text-align: center;
 }
