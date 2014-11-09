@@ -238,6 +238,7 @@ body {font-family:Verdana,Lucida;background-image:url('../images/food_background
     margin-bottom: .25em;
     min-height: 12em;
     overflow-y: hidden;
+    width: 100%;
 }
 
 .menuItemList {
@@ -311,6 +312,7 @@ body {font-family:Verdana,Lucida;background-image:url('../images/food_background
 .selectOptionOpen {
     height: 7em;
     margin-top: -6em;
+    padding-top:.25em;
     overflow-y: auto;
 }
 
