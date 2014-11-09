@@ -59,7 +59,13 @@
       <div class = "contactInfo">
         <div class = "contactPhone">{{giadata.config.phone}}</div>
         <div class = "contactAddress">
-          <div class = "mapLink"><i class = "fa fa-map-marker"></i></div>
+          <!-- The link to the map will only appear if the showdetails bit is on -->
+          <div
+            class         = "mapLink"
+            data-ng-if    = "!giadata.showdetails"
+            data-ng-click = "giadata.showdetails = true" >
+            <i class = "fa fa-map-marker"></i>
+          </div>
           {{giadata.config.address}}<br />
           {{giadata.config.address2}}
         </div>
@@ -70,6 +76,7 @@
       <div class="contactDescription">{{giadata.config.description}}</div>
       <!-- End drawer header -->
 
+      <!-- todo create a system load the social network in the drawer -->
       <div class="drawerContents"></div>
       <div class="exitDrawer">X</div>
 
@@ -128,26 +135,23 @@
                 <div
                   data-ng-repeat     = "option in giadata.menuOptions"
                   data-ng-if         = "item[option.optionName]"
-                  class = "menuOption"
+                  class              = "menuOption"
                 >
                   <!-- Show the current value of the option (if not false)-->
-                  <!-- When this current value is clicked on or hovered, it should turn into the drop down list -->
+                  <!-- When this current value is clicked on, it should turn into the drop down list -->
                   <div
                     data-ng-if         = "!giadata.dom[item.name][option.optionName].hover"
                     data-ng-click      = "giadata.dom[item.name][option.optionName].hover = !giadata.dom[item.name][option.optionName].hover"
-                    data-ng-mouseenter = "giadata.dom[item.name][option.optionName].hover = true"
-                    data-ng-mouseleave = "giadata.dom[item.name][option.optionName].hover = false"
                     class              = "selectedOption"
                     data-value         = "{{item[option.optionName]}}">
                     {{item[option.optionName]}}
                   </div>
 
-                  <!-- establish a hover event and a touch event which expands or shrinks the options selector -->
+                  <!-- establish an event to remove the options selector -->
                   <div
                     data-ng-if         = "giadata.dom[item.name][option.optionName].hover"
                     data-ng-class      = "{selectOptionOpen: giadata.dom[item.name][option.optionName].hover || false}"
                     data-ng-click      = "giadata.dom[item.name][option.optionName].hover = false"
-                    data-ng-mouseenter = "giadata.dom[item.name][option.optionName].hover = true"
                     data-ng-mouseleave = "giadata.dom[item.name][option.optionName].hover = false"
                     data-option        = "{{option.optionName}}"
                     class              = "selectOption" >
@@ -157,6 +161,7 @@
                     <div
                       data-ng-repeat = "optionValue in option.optionValues"
                       data-ng-click  = "item[option.optionName] = optionValue"
+                      data-ng-class  = "{optionValueSelected:optionValue===item[option.optionName]}"
                       class          = "optionValue"
                       data-option    = "{{option.optionName}}"
                       data-value     = "{{optionValue}}" >
@@ -180,7 +185,7 @@
 
     <!-- The view format switching buttons change between grid and list formats -->
     <div
-      data-ng-if    = "giadata.viewFormat === 'list' || !giadata.viewFormat"
+      data-ng-if    = "giadata.viewFormat === 'list'"
       data-ng-click = "giadata.viewFormat = 'grid'"
       class         = "cartFormat"
       data-view     = "grid"
@@ -188,7 +193,7 @@
       <i class="fa fa-th"></i>
     </div>
     <div
-      data-ng-if    = "giadata.viewFormat === 'grid'"
+      data-ng-if    = "giadata.viewFormat === 'grid' || !giadata.viewFormat"
       data-ng-click = "giadata.viewFormat = 'list'"
       class         = "cartFormat"
       data-view     = "list"
@@ -197,8 +202,18 @@
     </div>
     <!-- End view format switching buttons -->
 
-    <div class="details">
-        
+    <div data-ng-if = "giadata.showdetails" class="details">
+      <div
+        data-ng-click = "giadata.showdetails = false"
+        class="closeDetails">X</div>
+      <div class="map">
+          <iframe
+            width="100%"
+            height="100%"
+            frameborder="0" style="border:0"
+            src="{{giadata.config.mapsaddress}}">
+          </iframe>
+      </div>
     </div>
 
   </div> <!-- end content -->

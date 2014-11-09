@@ -1,7 +1,7 @@
 angular.module('giaApp', [])
   // Declare the controller with all the required libraries
-  .controller('giadataController', ['$scope', '$http',
-    function($scope, $http) {
+  .controller('giadataController', ['$scope', '$http', '$sce',
+    function($scope, $http, $sce) {
       // Adding to $scope is like creating new variables
       $scope.giaUrl       = 'https://script.google.com/macros/s/AKfycbyvb-2gd5IDPf42P2CIS1f8EVesZfPTMZJNCsLyAvDnEnbYdJhb/exec';
       // @type string The querystring value to attach to the data URL
@@ -12,11 +12,11 @@ angular.module('giaApp', [])
       $scope.localDataDom = window.location.href;
       // @type string A memo which indicates the state of the source data
       $scope.memo         = '';
-      // @type object Default to a list view in the giadata object
-      $scope.giadata      = {viewFormat:'list',currItem:{},config:{},dom:{}};
+      // @type object Default to a grid view in the giadata object
+      $scope.giadata      = {viewFormat:'grid',currItem:{},config:{},dom:{},showdetails:true};
       // @type array A collection of objects representing social systems
       $scope.socialModules = [];
-
+      
       // @type function Update the giadata and do update related tasks
       $scope.updateGiaData = function (newData, callback) {
         console.log('update GiaData:', $scope.giadata);
@@ -33,6 +33,9 @@ angular.module('giaApp', [])
  
         // Also update the social data when there's a gia data update
         $scope.updateSocialModules();
+
+        // The $sce object wraps the maps url in a usable iframe
+        $scope.giadata.config.mapsaddress = $sce.trustAsResourceUrl($scope.giadata.config.mapsaddress);
 
         // Perform any callback
         if (typeof callback === 'function') {
