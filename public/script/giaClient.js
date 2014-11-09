@@ -13,13 +13,16 @@ angular.module('giaApp', [])
       // @type string A memo which indicates the state of the source data
       $scope.memo         = '';
       // @type object Default to a list view in the giadata object
-      $scope.giadata      = {viewFormat:'list',currItem:{},config:{}};
+      $scope.giadata      = {viewFormat:'list',currItem:{},config:{},dom:{}};
       // @type array A collection of objects representing social systems
       $scope.socialModules = [];
 
       // @type function Update the giadata and do update related tasks
       $scope.updateGiaData = function (newData, callback) {
-        // Update the local date 
+        console.log('update GiaData:', $scope.giadata);
+        console.log('with newData:', newData);
+
+        // Update the local data
         $scope.giadata = angular.extend($scope.giadata, newData);
 
         // Store the data locally
@@ -112,7 +115,10 @@ angular.module('giaApp', [])
       // The controller is initiating, get data:
       $http.jsonp($scope.giaUrl + $scope.qs).
         success(function(data, status, headers, config) {
-          $scope.updateGiaData(data);
+          // If the data retrieved isn't just the memo, update it
+          if (typeof data !== 'string') {
+            $scope.updateGiaData(data);
+          }
         }).
         error(function(data, status, headers, config) {
           // called asynchronously if an error occurs

@@ -9,7 +9,7 @@ body {font-family:Verdana,Lucida;background-image:url('../images/food_background
 #footer {height:2em;position:absolute;bottom:.1em;}
 
 /* Round Edges */
-#previewMask, #preview, .details, #cart, .drawer .drawerContents, .menuItem, .selectOption, .optionValue {
+#previewMask, #preview, .details, #cart, .drawer .drawerContents, .menuItem, .selectOption, .optionValue, .selectedOption {
     -webkit-border-radius: .5em;
     -moz-border-radius: .5em;
     border-radius: .5em;
@@ -23,7 +23,7 @@ body {font-family:Verdana,Lucida;background-image:url('../images/food_background
 }
 
 /* Shaded Things */
-.details, #cart, .menuItem, .optionValue, .selectOption {
+.details, #cart, .menuItem, .optionValue, .selectOption, .selectedOption{
     background: -webkit-linear-gradient(bottom,rgba(0,0,0,.3),rgba(0,0,0,.7)); /*Safari 5.1-6*/
     background: -o-linear-gradient(bottom,rgba(0,0,0,.3),rgba(0,0,0,.7)); /*Opera 11.1-12*/
     background: -moz-linear-gradient(bottom,rgba(0,0,0,.3),rgba(0,0,0,.7)); /*Fx 3.6-15*/
@@ -31,7 +31,7 @@ body {font-family:Verdana,Lucida;background-image:url('../images/food_background
 }
 
 /* Wide Shadow */
-.drawer, .paymentOption, .mapLink, .socialLinks>div, .details, #cart, .menuItem, .optionValue, .selectOption{
+.drawer, .paymentOption, .mapLink, .socialLinks>div, .details, #cart, .menuItem, .optionValue, .selectOption, .selectedOption{
     -webkit-box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75);
     -moz-box-shadow:    0px 0px 10px 0px rgba(50, 50, 50, 0.75);
     box-shadow:         0px 0px 10px 0px rgba(50, 50, 50, 0.75);
@@ -67,7 +67,7 @@ body {font-family:Verdana,Lucida;background-image:url('../images/food_background
     transition: all 0.6s ease;
 }
 
-.selectOption, .selectedOption {
+.selectOption, .selectedOption, .menuOption, .selectOptionOpen {
     -webkit-transition: all 0.3s ease;
     -moz-transition: all 0.3s ease;
     -o-transition: all 0.3s ease;
@@ -300,43 +300,49 @@ body {font-family:Verdana,Lucida;background-image:url('../images/food_background
 }
 
 /* menu Options */
+.menuOption {
+    width: 9em;
+    float: left;
+    margin: 0 .1em .15em 0;
+}
+
 .selectOption {
     opacity: .95;
     float: left;
-    width: 8em;
-    height: 1.5em;
     overflow-y: hidden;
     overflow-x: hidden;
     margin: 0 .5em 0 .5em;
 }
 .selectOptionOpen {
     height: 7em;
-    margin-top: -6em;
+    margin-top: -5.5em;
     padding-top:.25em;
     overflow-y: auto;
 }
 
-.optionValue {
+.optionValue, .selectedOption {
     background-color: #9CB49C;
     padding: 0 .5em 0 .5em;
     text-align: center;
     margin: .2em 0 0 0;
-    width: 100%;
+    width: 8em;
+    height: 1.5em;
 }
-.optionValue[data-value="mild"] {
+
+[data-value="mild"] {
 	background-color:#00ff00;
 }
-.optionValue[data-value="medium"] {
+[data-value="medium"] {
 	background-color:#ffc600;
 }
-.optionValue[data-value="hot"] {
+[data-value="hot"] {
 	background-color:#ff0000;
 }
-.optionValue[data-value="extra hot"] {
+[data-value="extra hot"] {
 	background-color:#d200ff;
 }
 
-.optionValue:hover, .selectedOption {
+.optionValue:hover {
     background-color: #163011;
     color: #fff;
     cursor: pointer;
@@ -344,6 +350,12 @@ body {font-family:Verdana,Lucida;background-image:url('../images/food_background
 .optionHead {
     font-weight: bold;
     position: static;
+}
+.selectedOption {
+	float: left;
+    margin: 0 .5em 0 .5em;
+    overflow: hidden;
+    padding-top: .15em;
 }
 /* End menu options */
 

@@ -124,32 +124,49 @@
               <div class = "menuDescription">{{item.description}}</div>
               
               <div class = "menuOptions"><!-- Begin menuOptions -->
-                <!-- Show the selector if there are options of this type available -->
-                <!-- establish a hover event and a touch event which expands or shrinks the options selector -->
-                <div 
+                <!-- Each menuoption gets its own div -->
+                <div
                   data-ng-repeat     = "option in giadata.menuOptions"
                   data-ng-if         = "item[option.optionName]"
-                  data-ng-class      = "{selectOptionOpen: hover || false}"
-                  data-ng-click      = "hover = !hover"
-                  data-ng-mouseenter = "hover = true"
-                  data-ng-mouseleave = "hover = false"
-                  data-option        = "{{option.optionName}}"
-                  class              = "selectOption" >
-
-                  <!-- Show an option for each possible value -->
-                  <!-- Todo: create an event for the click on the option changing the current value-->
+                  class = "menuOption"
+                >
+                  <!-- Show the current value of the option (if not false)-->
+                  <!-- When this current value is clicked on or hovered, it should turn into the drop down list -->
                   <div
-                    data-ng-repeat = "optionValue in option.optionValues"
-                    class          = "optionValue"
-                    data-option    = "{{option.optionName}}"
-                    data-value     = "{{optionValue}}" >
-                    {{optionValue}}
+                    data-ng-if         = "!giadata.dom[item.name][option.optionName].hover"
+                    data-ng-click      = "giadata.dom[item.name][option.optionName].hover = !giadata.dom[item.name][option.optionName].hover"
+                    data-ng-mouseenter = "giadata.dom[item.name][option.optionName].hover = true"
+                    data-ng-mouseleave = "giadata.dom[item.name][option.optionName].hover = false"
+                    class              = "selectedOption"
+                    data-value         = "{{item[option.optionName]}}">
+                    {{item[option.optionName]}}
                   </div>
 
-                  <!-- todo: Show the current value of the option -->
+                  <!-- establish a hover event and a touch event which expands or shrinks the options selector -->
+                  <div
+                    data-ng-if         = "giadata.dom[item.name][option.optionName].hover"
+                    data-ng-class      = "{selectOptionOpen: giadata.dom[item.name][option.optionName].hover || false}"
+                    data-ng-click      = "giadata.dom[item.name][option.optionName].hover = false"
+                    data-ng-mouseenter = "giadata.dom[item.name][option.optionName].hover = true"
+                    data-ng-mouseleave = "giadata.dom[item.name][option.optionName].hover = false"
+                    data-option        = "{{option.optionName}}"
+                    class              = "selectOption" >
+
+                    <!-- Show an option for each possible value -->
+                    <!-- create an event for the click on the option changing the current value-->
+                    <div
+                      data-ng-repeat = "optionValue in option.optionValues"
+                      data-ng-click  = "item[option.optionName] = optionValue"
+                      class          = "optionValue"
+                      data-option    = "{{option.optionName}}"
+                      data-value     = "{{optionValue}}" >
+                      {{optionValue}}
+                    </div>
+
+                  </div>
 
                 </div>
-
+              
               </div><!-- End menuOptions -->
 
             </div><!-- end item -->
