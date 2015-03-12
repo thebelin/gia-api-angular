@@ -39,7 +39,7 @@
     <div id="previewMask"></div>
     <div id="preview"></div>
 
-    <div class="drawer">
+    <div id="contentDrawer" class="drawer">
 
       <!-- Social link modules -->
       <div class="socialLinks">
@@ -82,7 +82,7 @@
 
     </div> <!-- end drawer -->
       
-    <div class="cartItems">
+    <div class="cartItems" data-ng-controller = "shopController">
 
       <div data-ng-repeat="category in giadata.categories"><!-- Begin category display -->
 
@@ -104,9 +104,7 @@
               data-ng-class  = "{menuItemList: giadata.viewFormat==='list' || item.name === giadata.currItem.name,
                                 menuItemGrid: giadata.viewFormat==='grid' && item.name !== giadata.currItem.name}"
               class          = "menuItem {{item.class}}"
-              data-limit     = "{{item.available}}"
-              data-name      = "{{item.name}}"
-              data-price     = "{{item.price}}" >
+              data-limit     = "{{item.available}}" >
               
               <div
                 data-ng-click = "giadata.currItem = item"
@@ -120,12 +118,11 @@
                 class         = "itemName" >
                 {{item.name}}
               </div>
-
+              <!-- When someone clicks the add button, add the item to the basket, and decrease the number available -->
               <div
-                data-name  = "{{item.name}}"
-                data-price = "{{item.price}}"
-                class      = "addButton" >
-                ${{item.price}}
+                data-ng-click      = "basket.addItem(item);item.available = item.available - 1"
+                class              = "addButton" >
+                ${{item.price.toFixed(2)}}
               </div>
                 
               <div class = "menuDescription">{{item.description}}</div>
@@ -181,6 +178,40 @@
         </div><!-- end category item -->
       </div><!-- end category list -->
 
+      <!-- The shopping basket -->
+      <div
+        data-ng-if = "basket.contents.length"
+        class      = "shoppingBasket">
+        <div
+          data-ng-repeat = "listItem in basket.contents"
+          class          = "basketItem">
+
+          <div class = "basketQuantity" >{{listItem.quantity}}</div>
+
+          <div class = "basketName" >{{listItem.name}}</div>
+
+          <!-- Get each option and display if the value is set -->
+          <div
+            class          = "basketOption" >
+            <!-- Show the current value of the option (if not false)-->
+            <div
+              data-ng-repeat = "option in giadata.menuOptions"
+              data-ng-if     = "listItem[option.optionName]"
+              class      = "basketOptionValue"
+              data-value = "{{listItem[option.optionName]}}" >
+              {{listItem[option.optionName]}}
+            </div>
+          </div>
+          
+          <div data-ng-click = "basket.removeItem(listItem)" class = "basketMinus" >-</div>
+
+          <div class = "basketSubTotal" >${{listItem.__total.toFixed(2)}}</div>
+
+        </div>
+        <div class = "basketTotal">Total: ${{basket.total.toFixed(2)}}</div>
+      </div>
+      <!-- end shopping basket -->
+
     </div><!-- end cartItems class div -->
 
     <!-- The view format switching buttons change between grid and list formats -->
@@ -201,6 +232,8 @@
       <i class="fa fa-list"></i>
     </div>
     <!-- End view format switching buttons -->
+
+ 
 
     <div data-ng-if = "giadata.showdetails" class="details">
       <div

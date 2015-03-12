@@ -9,21 +9,21 @@ body {font-family:Verdana,Lucida;background-image:url('../images/food_background
 #footer {height:2em;position:absolute;bottom:.1em;}
 
 /* Round Edges */
-#previewMask, #preview, .details, #cart, .drawer .drawerContents, .menuItem, .selectOption, .optionValue, .selectedOption {
+#previewMask, #preview, .details, #cart, .drawer .drawerContents, .menuItem, .selectOption, .optionValue, .selectedOption, .shoppingBasket, .basketOptionValue {
     -webkit-border-radius: .5em;
     -moz-border-radius: .5em;
     border-radius: .5em;
 }
 
 /* Round Things */
-.paymentOption, .mapLink, .details .closeDetails, .drawer .exitDrawer, .itemThumb, .addButton, .socialLinks>div, .simpleCart_items .itemRow .item-decrement a, .simpleCart_items .itemRow .item-increment a {
+.paymentOption, .mapLink, .details .closeDetails, .drawer .exitDrawer, .itemThumb, .addButton, .socialLinks>div, .basketMinus {
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
     border-radius: 50%;
 }
 
 /* Shaded Things */
-.details, #cart, .menuItem, .optionValue, .selectOption, .selectedOption{
+.details, #cart, .menuItem, .optionValue, .selectOption, .selectedOption, .shoppingBasket, .basketOptionValue {
     background: -webkit-linear-gradient(bottom,rgba(0,0,0,.3),rgba(0,0,0,.7)); /*Safari 5.1-6*/
     background: -o-linear-gradient(bottom,rgba(0,0,0,.3),rgba(0,0,0,.7)); /*Opera 11.1-12*/
     background: -moz-linear-gradient(bottom,rgba(0,0,0,.3),rgba(0,0,0,.7)); /*Fx 3.6-15*/
@@ -31,7 +31,7 @@ body {font-family:Verdana,Lucida;background-image:url('../images/food_background
 }
 
 /* Wide Shadow */
-.drawer, .paymentOption, .mapLink, .socialLinks>div, .details, #cart, .menuItem, .optionValue, .selectOption, .selectedOption{
+.drawer, .paymentOption, .mapLink, .socialLinks>div, .details, #cart, .menuItem, .optionValue, .selectOption, .selectedOption, .shoppingBasket {
     -webkit-box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75);
     -moz-box-shadow:    0px 0px 10px 0px rgba(50, 50, 50, 0.75);
     box-shadow:         0px 0px 10px 0px rgba(50, 50, 50, 0.75);
@@ -67,7 +67,7 @@ body {font-family:Verdana,Lucida;background-image:url('../images/food_background
 }
 
 /* Animated css items */
-.menuItemList, .menuItemGrid {
+.menuItemList, .menuItemGrid, div.shoppingBasket {
     -webkit-transition: all 0.6s ease;
     -moz-transition: all 0.6s ease;
     -o-transition: all 0.6s ease;
@@ -162,11 +162,11 @@ body {font-family:Verdana,Lucida;background-image:url('../images/food_background
     z-index:2; /* content lives in 0 and below */
 }
 
-.details, #cart {
+.details, .shoppingBasket{
     position: absolute;
     width: 35%;
     min-height: 1em;
-    max-height: 45%;
+    max-height: 90%;
     padding: .2em;
     right:1.5em;
     color:#fff;
@@ -301,6 +301,7 @@ body {font-family:Verdana,Lucida;background-image:url('../images/food_background
     cursor: pointer;
     border: .2em solid #000;
     text-align: center;
+    padding-top: .2em;
 }
 
 .addButton:active {
@@ -353,10 +354,77 @@ body {font-family:Verdana,Lucida;background-image:url('../images/food_background
     margin: 0 .5em 0 .5em;
     overflow: hidden;
     padding-top: .15em;
+	background-color:#fff;
 }
 .optionValueSelected {
 	background-color:#fff;
 }
+
+/* End menu options */
+/* ############################ Option Driven Shopping Basket ######################################*/
+
+.shoppingBasket {
+	top: 1em;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+.basketItem {
+	width: 100%;
+	float: left;
+	margin-top: .25em;
+}
+.basketQuantity {
+	float: left;
+	width: 1em;
+	overflow: hidden;
+}
+.basketName {
+	float: left;
+	width: 11em;
+	overflow: hidden;
+}
+.basketOption {
+	float: left;
+	width: 5em;
+	overflow: hidden;
+}
+
+.basketOptionValue {
+	float: left;
+	font-size: .7em;
+	width: 100%;
+	overflow: hidden;
+	text-align: center;
+	background-color:#c0c0c0;
+}
+.basketSubTotal {
+	float: right;
+	width: 4em;
+	text-align: right;
+	padding-right: .5em;
+}
+.basketTotal {
+	float: right;
+	width: 10em;
+	overflow: hidden;
+	margin-right: 2em;
+	text-align: right;
+}
+.basketMinus {
+	color: #f00;
+    float: right;
+    border: .1em solid #f00;
+    width: 1.4em;
+    height: 1.4em;
+    text-align:center;
+    box-shadow: 1px 1px #000;
+    text-shadow: 1px 1px #000;
+    font-weight:bold;
+    cursor: pointer;
+    background-color:#740303;
+}
+/* End option driven basket */
+
 /* Some option over-rides for common values which should have colors */
 [data-value="mild"] {
 	background-color:#00ff00;
@@ -368,9 +436,8 @@ body {font-family:Verdana,Lucida;background-image:url('../images/food_background
 	background-color:#ff0000;
 }
 [data-value="extra hot"] {
-	background-color:#d200ff;
+	background-color:#e400ff;
 }
-/* End menu options */
 
 #previewMask, #previewOverlay, #preview {
     position: absolute;

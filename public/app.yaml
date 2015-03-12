@@ -1,0 +1,16 @@
+application: imaginary-food
+version: 14
+runtime: php
+api_version: 1
+
+handlers:
+- url: /
+  script: index.html
+- url: /style
+  static_dir: style
+- url: /script
+  static_dir: script
+- url: /images
+  static_dir: images
+- url: /hostedImages
+  static_dir: hostedImages
